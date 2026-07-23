@@ -3,15 +3,18 @@ using UnityEngine;
 
 public abstract class BuildingBase : MonoBehaviour, IDamageable
 {
-    [SerializeField] protected BuildingDataSO buildingDataSO;   
+    [SerializeField] protected BuildingDataSO buildingData;   
     protected int currentHealth;                    
-    protected Vector2Int originCell;                
+    protected Vector2Int originCell;
+
+    public Vector2Int OriginCell => originCell;
+    public BuildingDataSO BuildingData => buildingData;
 
     public event Action<BuildingBase> OnDied;           
 
     public virtual void Initialize(BuildingDataSO buildingData, Vector2Int origin)
     {
-        buildingDataSO = buildingData;
+        this.buildingData = buildingData;
         originCell = origin;
         currentHealth = buildingData.BuildingHealth;      
     }

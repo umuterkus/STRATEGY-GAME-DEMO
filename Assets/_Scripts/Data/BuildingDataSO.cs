@@ -1,5 +1,4 @@
 using UnityEngine;
-
 [CreateAssetMenu(fileName = "NewBuildingData", menuName = "Game/Building Data")]
 public class BuildingDataSO : ScriptableObject
 {
@@ -14,12 +13,14 @@ public class BuildingDataSO : ScriptableObject
     [Header("Stats")]
     [SerializeField] private int buildingHealth;
 
+    [Header("Prefab")]
+    [SerializeField] private BuildingBase buildingPrefab;
 
     // Runtime protection
     public string BuildingName => buildingName;
     public Sprite BuildingSprite => buildingSprite;
-    public int Width => width;
-    public int Height => height;
+    public Vector2Int GridSize => new Vector2Int(width, height);
     public int BuildingHealth => buildingHealth;
+    public BuildingBase BuildingPrefab => buildingPrefab;
  
 }

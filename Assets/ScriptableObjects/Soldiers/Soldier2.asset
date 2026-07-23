@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d05a9794874cf74b91fb006a1610848, type: 3}
   m_Name: Soldier2
   m_EditorClassIdentifier: Assembly-CSharp::SoldierData
-  unitName: 
+  unitName: Soldier 2
   unitSprite: {fileID: 0}
-  maxHealth: 0
-  attackDamage: 0
+  soldierHealth: 0
+  attackDamage: 5

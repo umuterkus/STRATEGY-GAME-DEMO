@@ -5,12 +5,14 @@ public abstract class BuildingBase : MonoBehaviour, IDamageable
 {
     [SerializeField] protected BuildingDataSO buildingDataSO;   
     protected int currentHealth;                    
+    protected Vector2Int originCell;                
 
     public event Action<BuildingBase> OnDied;           
 
-    public virtual void Initialize(BuildingDataSO buildingData)
+    public virtual void Initialize(BuildingDataSO buildingData, Vector2Int origin)
     {
         buildingDataSO = buildingData;
+        originCell = origin;
         currentHealth = buildingData.BuildingHealth;      
     }
 

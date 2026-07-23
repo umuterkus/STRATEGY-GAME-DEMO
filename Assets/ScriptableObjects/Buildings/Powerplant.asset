@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42930af877ee1aa478f553d07f30f5eb, type: 3}
   m_Name: Powerplant
   m_EditorClassIdentifier: Assembly-CSharp::BuildingData
-  buildingName: 
+  buildingName: Power Plant
   buildingSprite: {fileID: 0}
-  width: 0
-  height: 0
-  maxHealth: 0
+  width: 2
+  height: 3
+  buildingHealth: 0

@@ -8,12 +8,12 @@ public class SoldierData : ScriptableObject
     [SerializeField] private Sprite unitSprite;
 
     [Header("Stats")]
-    [SerializeField] private int maxHealth;
+    [SerializeField] private int soldierHealth;
     [SerializeField] private int attackDamage;
 
     // Runtime protection
     public string UnitName => unitName;
     public Sprite UnitSprite => unitSprite;
-    public int MaxHealth => maxHealth;
+    public int SoldierHealth => soldierHealth;
     public int AttackDamage => attackDamage;
 }

@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "NewBuildingData", menuName = "Game/Building Data")]
-public class BuildingData : ScriptableObject
+public class BuildingDataSO : ScriptableObject
 {
     [Header("Identity")]
     [SerializeField] private string buildingName;
@@ -12,7 +12,7 @@ public class BuildingData : ScriptableObject
     [SerializeField] private int height;
 
     [Header("Stats")]
-    [SerializeField] private int maxHealth;
+    [SerializeField] private int buildingHealth;
 
 
     // Runtime protection
@@ -20,6 +20,6 @@ public class BuildingData : ScriptableObject
     public Sprite BuildingSprite => buildingSprite;
     public int Width => width;
     public int Height => height;
-    public int MaxHealth => maxHealth;
+    public int BuildingHealth => buildingHealth;
  
 }

@@ -27,7 +27,9 @@ public abstract class BuildingBase : MonoBehaviour, IDamageable
 
     protected virtual void Die()
     {
-        OnDied?.Invoke(this);   
+        GridManager.Instance.ClearGrids(originCell, buildingData.GridSize);
+        OnDied?.Invoke(this);
+        EventBus.OnBuildingDestroyed?.Invoke(this);
         Destroy(gameObject);
     }
 }

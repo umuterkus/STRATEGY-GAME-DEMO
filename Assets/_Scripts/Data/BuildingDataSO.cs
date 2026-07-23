@@ -13,6 +13,7 @@ public class BuildingDataSO : ScriptableObject
     [Header("Stats")]
     [SerializeField] private int buildingHealth;
 
+    // Cannot decide prefab database or prefab in SO
     [Header("Prefab")]
     [SerializeField] private BuildingBase buildingPrefab;
 

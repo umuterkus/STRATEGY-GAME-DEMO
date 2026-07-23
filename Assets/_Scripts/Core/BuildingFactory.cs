@@ -9,7 +9,7 @@ public static class BuildingFactory
         BuildingBase instance = Object.Instantiate(buildingData.BuildingPrefab, worldPos, Quaternion.identity);
 
         instance.Initialize(buildingData, gridPosition);
-        GridManager.Instance.OccupyArea(gridPosition, buildingData.GridSize);
+        GridManager.Instance.OccupyArea(gridPosition, buildingData.GridSize, instance);
 
         EventBus.OnBuildingPlaced?.Invoke(instance);
         return instance;

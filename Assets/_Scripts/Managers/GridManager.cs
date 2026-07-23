@@ -10,6 +10,8 @@ public class GridManager : MonoBehaviour
 
     private bool[,] isOccupied;
 
+    private BuildingBase[,] buildingGrid;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -19,6 +21,8 @@ public class GridManager : MonoBehaviour
         }
         Instance = this;
         isOccupied = new bool[gridWidth, gridHeight];
+
+        buildingGrid = new BuildingBase[gridWidth, gridHeight];
     }
 
     public Vector2Int GetGridCoordinate(Vector2 worldPos)
@@ -35,45 +39,55 @@ public class GridManager : MonoBehaviour
         return new Vector2(x, y);
     }
 
-    private bool IsCellFree(Vector2Int cell)
+    private bool IsCellClear(Vector2Int cell)
     {
         if (cell.x < 0 || cell.x >= gridWidth || cell.y < 0 || cell.y >= gridHeight)
             return false;
         return !isOccupied[cell.x, cell.y];
     }
 
-    private void SetOccupied(Vector2Int cell, bool occupied)
+    private void SetOccupied(Vector2Int cell, bool occupied, BuildingBase building = null)
     {
         if (cell.x < 0 || cell.x >= gridWidth || cell.y < 0 || cell.y >= gridHeight)
             return;
+
         isOccupied[cell.x, cell.y] = occupied;
+        buildingGrid[cell.x, cell.y] = building;
     }
 
-    public bool IsAreaFree(Vector2Int origin, Vector2Int size)
+    public bool IsAreaClear(Vector2Int origin, Vector2Int size)
     {
         for (int x = 0; x < size.x; x++)
         {
             for (int y = 0; y < size.y; y++)
             {
-                if (!IsCellFree(origin + new Vector2Int(x, y)))
+                if (!IsCellClear(origin + new Vector2Int(x, y)))
                     return false;
             }
         }
         return true;
     }
 
-    public void OccupyArea(Vector2Int origin, Vector2Int size)
+    public void OccupyArea(Vector2Int origin, Vector2Int size, BuildingBase building)
     {
         for (int x = 0; x < size.x; x++)
             for (int y = 0; y < size.y; y++)
-                SetOccupied(origin + new Vector2Int(x, y), true);
+                SetOccupied(origin + new Vector2Int(x, y), true, building);
     }
 
     public void ClearGrids(Vector2Int origin, Vector2Int size)
     {
         for (int x = 0; x < size.x; x++)
-            for (int y = 0; y < size.y; y++)
-                SetOccupied(origin + new Vector2Int(x, y), false);
+            for (int y = 0; y < size.y; y++)  
+                SetOccupied(origin + new Vector2Int(x, y), false, null);
+    }
+
+
+    public BuildingBase GetBuildingAt(Vector2Int cell)
+    {
+        if (cell.x < 0 || cell.x >= gridWidth || cell.y < 0 || cell.y >= gridHeight)
+            return null;
+        return buildingGrid[cell.x, cell.y];
     }
 
     private void OnDrawGizmos()

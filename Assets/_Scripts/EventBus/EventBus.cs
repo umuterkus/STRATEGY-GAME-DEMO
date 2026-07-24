@@ -10,5 +10,5 @@ public static class EventBus
     public static Action<BuildingDataSO> OnPlacementStarted;
     public static Action OnPlacementCancelled;
 
-    public static Action<SoldierData, Vector2> OnUnitProduced;
+    public static Action<UnitData, Vector2> OnUnitProduced;
 }

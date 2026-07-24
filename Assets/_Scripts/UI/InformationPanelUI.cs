@@ -30,7 +30,7 @@ public class InformationPanelUI : MonoBehaviour
     private void HandleBuildingSelected(BuildingBase building)
     {
         ClearProductionButtons();
-        if (building == null)
+        if (building.BuildingData == null)
         {
             panelRoot.SetActive(false);
             return;
@@ -42,12 +42,12 @@ public class InformationPanelUI : MonoBehaviour
         if (building is IUnitProducable producer)
         {
             int index = 0;
-            foreach (SoldierData soldierData in producer.ProduceableUnits)
+            foreach (UnitData soldierData in producer.ProduceableUnits)
             {
                 ProductionButtonUI btnUI = GetOrCreateButton(index);
                 index++;
 
-                SoldierData capturedData = soldierData;
+                UnitData capturedData = soldierData;
                 btnUI.Setup(capturedData, () => producer.ProduceUnit(capturedData));
                 btnUI.gameObject.SetActive(true);
             }

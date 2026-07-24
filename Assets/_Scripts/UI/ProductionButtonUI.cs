@@ -9,7 +9,7 @@ public class ProductionButtonUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private Button button;
 
-    public void Setup(SoldierData data, Action onClickAction)
+    public void Setup(UnitData data, Action onClickAction)
     {
         if (iconImage != null)
             iconImage.sprite = data.UnitSprite;

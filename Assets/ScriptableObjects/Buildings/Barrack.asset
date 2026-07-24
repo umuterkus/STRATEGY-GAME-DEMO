@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42930af877ee1aa478f553d07f30f5eb, type: 3}
   m_Name: Barrack
   m_EditorClassIdentifier: Assembly-CSharp::BuildingData
-  buildingName: Barrack
-  buildingSprite: {fileID: 0}
+  buildingName: Barracks
+  buildingSprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   width: 4
   height: 4
   buildingHealth: 0
+  buildingPrefab: {fileID: 5046664580513877026, guid: 1ddce0af50802d443be82f104cd9c2c7, type: 3}

@@ -4,9 +4,9 @@ public class GridManager : MonoBehaviour
 {
     public static GridManager Instance { get; private set; }
 
-    [SerializeField] private int gridWidth = 30;
+    [SerializeField] private int gridWidth = 20;
     [SerializeField] private int gridHeight = 20;
-    [SerializeField] private float cellSize = 32f;
+    [SerializeField] private float cellSize = .5f;
 
     private bool[,] isOccupied;
 

@@ -1,8 +1,9 @@
-//using UnityEngine;
+using System.Collections.Generic;
+using UnityEngine;
 
-//[CreateAssetMenu(fileName = "BuildingDatabaseSO", menuName = "Scriptable Objects/BuildingDatabaseSO")]
-//public class BuildingDatabaseSO : ScriptableObject
-//{
-
-    
-//}
+[CreateAssetMenu(fileName = "BuildingDatabase", menuName = "Game/Building Database")]
+public class BuildingDatabaseSO : ScriptableObject
+{
+    [SerializeField] private List<BuildingDataSO> allBuildings;
+    public List<BuildingDataSO> AllBuildings => allBuildings;
+}

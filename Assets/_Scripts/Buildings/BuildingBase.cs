@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public abstract class BuildingBase : MonoBehaviour, IDamageable
+public abstract class BuildingBase : MonoBehaviour, IDamageable, ISelectable
 {
     [SerializeField] protected BuildingDataSO buildingData;   
     protected int currentHealth;                    
@@ -10,7 +10,9 @@ public abstract class BuildingBase : MonoBehaviour, IDamageable
     public Vector2Int OriginCell => originCell;
     public BuildingDataSO BuildingData => buildingData;
 
-    public event Action<BuildingBase> OnDied;           
+    public event Action<BuildingBase> OnDied;
+
+    
 
     public virtual void Initialize(BuildingDataSO buildingData, Vector2Int origin)
     {
@@ -19,6 +21,14 @@ public abstract class BuildingBase : MonoBehaviour, IDamageable
         currentHealth = buildingData.BuildingHealth;      
     }
 
+    public void Select()
+    {
+        EventBus.OnBuildingSelected?.Invoke(this);
+    }
+    public void Deselect()
+    {
+        EventBus.OnBuildingSelected?.Invoke(null);
+    }
     public virtual void TakeDamage(int amount)
     {
         currentHealth = Mathf.Max(0, currentHealth - amount);

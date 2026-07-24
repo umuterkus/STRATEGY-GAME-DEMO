@@ -30,9 +30,12 @@ public class InformationPanelUI : MonoBehaviour
     private void HandleBuildingSelected(BuildingBase building)
     {
         ClearProductionButtons();
-        if (building.BuildingData == null)
+        if (building == null || building.BuildingData == null)
         {
-            panelRoot.SetActive(false);
+            if (panelRoot != null) 
+            { 
+                panelRoot.SetActive(false);
+            }
             return;
         }
         panelRoot.SetActive(true);

@@ -3,6 +3,7 @@ using UnityEngine;
 public class SelectionController : MonoBehaviour
 {
     [SerializeField] private Camera mainCamera;
+    private ISelectable currentSelected;
 
     private void Awake()
     {
@@ -17,16 +18,20 @@ public class SelectionController : MonoBehaviour
 
         if (hit.collider != null)
         {
-            BuildingBase building = hit.collider.GetComponentInParent<BuildingBase>();
-            if (building != null)
+            ISelectable selectable = hit.collider.GetComponentInParent<ISelectable>();
+            if (selectable != null)
             {
-                Debug.Log("Bina Seçildi: " + building.BuildingData.BuildingName);
-                EventBus.OnBuildingSelected?.Invoke(building);
+                if (currentSelected != selectable)
+                {
+                    currentSelected?.Deselect();
+                    currentSelected = selectable;
+                    currentSelected.Select();
+                }
                 return;
             }
         }
 
-        Debug.Log("clciked empty space");
-        EventBus.OnBuildingSelected?.Invoke(null);
+        currentSelected?.Deselect();
+        currentSelected = null;
     }
 }

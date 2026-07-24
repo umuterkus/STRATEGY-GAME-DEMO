@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public abstract class UnitBase : MonoBehaviour, IDamageable
+public abstract class UnitBase : MonoBehaviour, IDamageable, ISelectable
 {
     public UnitData UnitData { get; protected set; } 
 
@@ -16,6 +16,8 @@ public abstract class UnitBase : MonoBehaviour, IDamageable
         UnitData = data;
         currentHealth = data.UnitMaxHealth;
         transform.position = spawnPosition;
+        isDead = false;
+        Deselect();
     }
    
     public virtual void TakeDamage(int amount)
@@ -23,7 +25,6 @@ public abstract class UnitBase : MonoBehaviour, IDamageable
         if (isDead) return;
         currentHealth = Mathf.Max(0, currentHealth - amount);
         if (currentHealth == 0) Die();
-        isDead = false;
     }
 
     protected virtual void Die()
@@ -35,5 +36,15 @@ public abstract class UnitBase : MonoBehaviour, IDamageable
     public virtual void ResetUnit()
     {
         currentHealth = 0;
+    }
+
+    public void Select()
+    {
+        Debug.Log("Selected correctly");
+    }
+
+    public void Deselect()
+    {
+        Debug.Log("Deselected correctly");
     }
 }

@@ -37,7 +37,7 @@ public class UnitManager : MonoBehaviour
 
     private void HandleUnitProduced(UnitData data, Vector2 spawnPos)
     {
-        UnitBase unit = unitFactory.Create(data, spawnPos);
+        UnitBase unit = unitFactory.CreateUnit(data, spawnPos);
         if (unit == null) return;
 
         activeUnits.Add(unit);
@@ -48,6 +48,6 @@ public class UnitManager : MonoBehaviour
     {
         unit.OnDied -= HandleUnitDied;
         activeUnits.Remove(unit);
-        unitFactory.Return(unit);
+        unitFactory.ReturnUnit(unit);
     }
 }

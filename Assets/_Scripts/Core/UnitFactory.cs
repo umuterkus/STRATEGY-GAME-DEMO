@@ -13,7 +13,7 @@ public class UnitFactory
         this.initialPoolSize = initialPoolSize;
     }
 
-    public UnitBase Create(UnitData data, Vector2 spawnPosition)
+    public UnitBase CreateUnit(UnitData data, Vector2 spawnPosition)
     {
         if (data == null || data.UnitPrefab == null) return null;
 
@@ -29,7 +29,7 @@ public class UnitFactory
         return unit;
     }
 
-    public void Return(UnitBase unit)
+    public void ReturnUnit(UnitBase unit)
     {
         UnitData data = unit.UnitData;
         unit.ResetUnit();

@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: db300a56490186a44b7e1b79b9a8123f
+guid: 2d034566c0281c849905e210df3059b6
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6606266768642772197
-    second: barracks_sprite_1784878588021_0
+      213: -6702265269783614023
+    second: d89260a3-3f5d-4b3a-bee5-62f57e80e008_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: barracks_sprite_1784878588021_0
+      name: d89260a3-3f5d-4b3a-bee5-62f57e80e008_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 1024
-        height: 1024
+        height: 687
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 5ec8b64ef9c2eab50800000000000000
-      internalID: 6606266768642772197
+      spriteID: 9bd2c1c4f35ccf2a0800000000000000
+      internalID: -6702265269783614023
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      barracks_sprite_1784878588021_0: 6606266768642772197
+      d89260a3-3f5d-4b3a-bee5-62f57e80e008_0: -6702265269783614023
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

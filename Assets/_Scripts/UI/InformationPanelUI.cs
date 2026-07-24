@@ -39,7 +39,7 @@ public class InformationPanelUI : MonoBehaviour
         buildingImage.sprite = building.BuildingData.BuildingSprite;
         buildingNameText.text = building.BuildingData.BuildingName;
 
-        if (building is IUnitProducer producer)
+        if (building is IUnitProducable producer)
         {
             int index = 0;
             foreach (SoldierData soldierData in producer.ProduceableUnits)

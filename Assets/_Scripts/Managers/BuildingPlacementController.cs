@@ -56,7 +56,7 @@ public class BuildingPlacementController : MonoBehaviour
     {
         Vector2 mouseWorldPos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         Vector2Int targetCell = GridManager.Instance.GetGridCoordinate(mouseWorldPos);
-        Vector2 centerPos = GridManager.Instance.GetGridCenterPosition(targetCell);
+        Vector2 centerPos = GridManager.Instance.GetBuildingCenterPosition(targetCell, currentBuildingData.GridSize);
 
         previewInstance.transform.position = centerPos;
 

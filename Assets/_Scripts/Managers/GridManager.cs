@@ -39,6 +39,13 @@ public class GridManager : MonoBehaviour
         return new Vector2(x, y);
     }
 
+    public Vector2 GetBuildingCenterPosition(Vector2Int origin, Vector2Int size)
+    {
+        float x = origin.x * cellSize + (size.x * cellSize) / 2f;
+        float y = origin.y * cellSize + (size.y * cellSize) / 2f;
+        return new Vector2(x, y);
+    }
+
     private bool IsCellClear(Vector2Int cell)
     {
         if (cell.x < 0 || cell.x >= gridWidth || cell.y < 0 || cell.y >= gridHeight)

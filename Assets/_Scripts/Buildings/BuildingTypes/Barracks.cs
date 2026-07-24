@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Barracks : BuildingBase, IUnitProducer
+public class Barracks : BuildingBase, IUnitProducable
 {
     [SerializeField] private List<SoldierData> produceableUnits;
     [SerializeField] private Vector2 spawnOffset = new Vector2(1f, 0f);

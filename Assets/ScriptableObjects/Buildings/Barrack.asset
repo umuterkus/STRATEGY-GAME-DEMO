@@ -17,4 +17,4 @@ MonoBehaviour:
   width: 4
   height: 4
   buildingHealth: 0
-  buildingPrefab: {fileID: 5046664580513877026, guid: 1ddce0af50802d443be82f104cd9c2c7, type: 3}
+  buildingPrefab: {fileID: 5628181287108903780, guid: 1ddce0af50802d443be82f104cd9c2c7, type: 3}

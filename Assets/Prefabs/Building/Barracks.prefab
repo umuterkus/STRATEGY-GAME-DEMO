@@ -137,7 +137,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.0001, y: 0.0001}
+  m_Size: {x: 4, y: 4}
   m_EdgeRadius: 0
 --- !u!114 &5628181287108903780
 MonoBehaviour:
@@ -152,3 +152,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Barracks
   buildingData: {fileID: 11400000, guid: 6f28dac8664bc234eb17c403e63a4ffd, type: 2}
+  produceableUnits:
+  - {fileID: 11400000, guid: f40aa1868b1c36f4da9143887d731a6f, type: 2}
+  - {fileID: 11400000, guid: cf1ee0f466415404788d6578e1c08b23, type: 2}
+  - {fileID: 11400000, guid: a7c8cef94c7444b419096bd30b087208, type: 2}
+  spawnOffset: {x: 0, y: 0}

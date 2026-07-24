@@ -1,14 +1,14 @@
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class BuildingPlacementController : MonoBehaviour
 {
     [SerializeField] private Camera mainCamera;
-    [SerializeField] private float previewScale = 1f;
 
     private BuildingDataSO currentBuildingData;
     private GameObject previewInstance;
-    private SpriteRenderer previewRenderer;
+    private SpriteRenderer[] previewRenderers;
+
+    public bool IsPlacing => currentBuildingData != null;
 
     private void Awake()
     {
@@ -19,33 +19,37 @@ public class BuildingPlacementController : MonoBehaviour
     private void OnEnable()
     {
         EventBus.OnPlacementStarted += StartPlacement;
-        EventBus.OnPlacementCancelled += CancelPlacement;
     }
 
     private void OnDisable()
     {
         EventBus.OnPlacementStarted -= StartPlacement;
-        EventBus.OnPlacementCancelled -= CancelPlacement;
     }
 
     private void Update()
     {
-        if (currentBuildingData == null) return;
+        if (!IsPlacing) return;
         UpdatePreviewPositionAndColor();
-        HandlePlacementInput();
     }
 
-    public void StartPlacement(BuildingDataSO buildingData)
+    private void StartPlacement(BuildingDataSO buildingData)
     {
         CancelPlacement();
         currentBuildingData = buildingData;
 
-        previewInstance = new GameObject("PlacementPreview");
-        previewInstance.transform.localScale = new Vector3(previewScale, previewScale, 1f);
+        if (buildingData.BuildingPrefab == null) return;
 
-        previewRenderer = previewInstance.AddComponent<SpriteRenderer>();
-        previewRenderer.sprite = buildingData.BuildingSprite;
-        previewRenderer.sortingOrder = 10;
+        previewInstance = Instantiate(buildingData.BuildingPrefab.gameObject);
+
+        BuildingBase buildingScript = previewInstance.GetComponent<BuildingBase>();
+        if (buildingScript != null)
+            buildingScript.enabled = false;
+
+        Collider2D col = previewInstance.GetComponent<Collider2D>();
+        if (col != null)
+            col.enabled = false;
+
+        previewRenderers = previewInstance.GetComponentsInChildren<SpriteRenderer>();
     }
 
     private void UpdatePreviewPositionAndColor()
@@ -57,37 +61,25 @@ public class BuildingPlacementController : MonoBehaviour
         previewInstance.transform.position = centerPos;
 
         bool isClear = GridManager.Instance.IsAreaClear(targetCell, currentBuildingData.GridSize);
-        previewRenderer.color = isClear ? new Color(0f, 1f, 0f, 0.4f) : new Color(1f, 0f, 0f, 0.4f);
+        Color tintColor = isClear ? new Color(0f, 1f, 0f, 0.5f) : new Color(1f, 0f, 0f, 0.5f);
+
+        foreach (var sr in previewRenderers)
+            sr.color = tintColor;
     }
 
-    private void HandlePlacementInput()
+    public void TryPlace()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
-                return;
+        Vector2 mouseWorldPos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        Vector2Int targetCell = GridManager.Instance.GetGridCoordinate(mouseWorldPos);
 
-            Vector2 mouseWorldPos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-            Vector2Int targetCell = GridManager.Instance.GetGridCoordinate(mouseWorldPos);
-            TryPlaceBuilding(targetCell);
-        }
-
-        if (Input.GetMouseButtonDown(1))
-        {
-            CancelPlacement();
-        }
-    }
-
-    private void TryPlaceBuilding(Vector2Int gridCoordinate)
-    {
-        if (!GridManager.Instance.IsAreaClear(gridCoordinate, currentBuildingData.GridSize))
+        if (!GridManager.Instance.IsAreaClear(targetCell, currentBuildingData.GridSize))
             return;
 
-        BuildingFactory.Create(currentBuildingData, gridCoordinate);
+        BuildingFactory.Create(currentBuildingData, targetCell);
         CancelPlacement();
     }
 
-    private void CancelPlacement()
+    public void CancelPlacement()
     {
         currentBuildingData = null;
 
@@ -95,7 +87,7 @@ public class BuildingPlacementController : MonoBehaviour
         {
             Destroy(previewInstance);
             previewInstance = null;
-            previewRenderer = null;
+            previewRenderers = null;
         }
     }
 }

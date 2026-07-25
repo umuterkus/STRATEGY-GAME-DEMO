@@ -46,12 +46,13 @@ public class GridManager : MonoBehaviour
         return new Vector2(x, y);
     }
 
-    private bool IsCellClear(Vector2Int cell)
+    public bool IsCellClear(Vector2Int cell)
     {
         if (cell.x < 0 || cell.x >= gridWidth || cell.y < 0 || cell.y >= gridHeight)
             return false;
         return !isOccupied[cell.x, cell.y];
     }
+
 
     private void SetOccupied(Vector2Int cell, bool occupied, BuildingBase building = null)
     {

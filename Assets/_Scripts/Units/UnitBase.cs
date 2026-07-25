@@ -1,12 +1,14 @@
 using System;
 using UnityEngine;
 
-public abstract class UnitBase : MonoBehaviour, IDamageable, ISelectable
+public abstract class UnitBase : MonoBehaviour, IDamageable, ISelectable, IMoveable
 {
     public UnitData UnitData { get; protected set; } 
 
     protected int currentHealth;
     public int CurrentHealth => currentHealth;
+
+    public bool IsMoving => throw new NotImplementedException();
 
     public event Action<UnitBase> OnDied;
 
@@ -46,5 +48,10 @@ public abstract class UnitBase : MonoBehaviour, IDamageable, ISelectable
     public void Deselect()
     {
         Debug.Log("Deselected correctly");
+    }
+
+    public void MoveTo(Vector2 targetPosition)
+    {
+        throw new NotImplementedException();
     }
 }

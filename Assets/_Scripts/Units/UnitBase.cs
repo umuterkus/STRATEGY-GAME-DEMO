@@ -1,18 +1,19 @@
 using System;
 using UnityEngine;
 
-public abstract class UnitBase : MonoBehaviour, IDamageable, ISelectable, IMoveable
+public abstract class UnitBase : MonoBehaviour, IDamageable, ISelectable, IMoveable, IGridEntity
 {
-    public UnitData UnitData { get; protected set; } 
-
+    public UnitData UnitData { get; protected set; }
     protected int currentHealth;
     public int CurrentHealth => currentHealth;
-
     public bool IsMoving => throw new NotImplementedException();
 
-    public event Action<UnitBase> OnDied;
 
     protected bool isDead;
+    public event Action<UnitBase> OnDied;
+
+    public event Action<IGridEntity> OnDespawned;
+
     public virtual void Initialize(UnitData data, Vector2 spawnPosition)
     {
         UnitData = data;
@@ -21,7 +22,7 @@ public abstract class UnitBase : MonoBehaviour, IDamageable, ISelectable, IMovea
         isDead = false;
         Deselect();
     }
-   
+
     public virtual void TakeDamage(int amount)
     {
         if (isDead) return;
@@ -33,11 +34,12 @@ public abstract class UnitBase : MonoBehaviour, IDamageable, ISelectable, IMovea
     {
         isDead = true;
         OnDied?.Invoke(this);
+        OnDespawned?.Invoke(this);
     }
 
     public virtual void ResetUnit()
     {
-        currentHealth = 0;
+        isDead = false;
     }
 
     public void Select()

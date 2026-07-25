@@ -3,7 +3,7 @@ using UnityEngine;
 public class SelectionController : MonoBehaviour
 {
     [SerializeField] private Camera mainCamera;
-    private ISelectable currentSelected;
+    private ISelectable currentUnit;
 
     private void Awake()
     {
@@ -21,17 +21,28 @@ public class SelectionController : MonoBehaviour
             ISelectable selectable = hit.collider.GetComponentInParent<ISelectable>();
             if (selectable != null)
             {
-                if (currentSelected != selectable)
+                if (currentUnit != selectable)
                 {
-                    currentSelected?.Deselect();
-                    currentSelected = selectable;
-                    currentSelected.Select();
+                    currentUnit?.Deselect();
+                    currentUnit = selectable;
+                    currentUnit.Select();
                 }
                 return;
             }
         }
 
-        currentSelected?.Deselect();
-        currentSelected = null;
+        currentUnit?.Deselect();
+        currentUnit = null;
+    }
+
+    public void TryMoveUnit()
+    {
+        if (currentUnit == null) return;
+
+        if (currentUnit is IMoveable moveable)
+        {
+            Vector2 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+            moveable.MoveTo(mousePos);
+        }
     }
 }

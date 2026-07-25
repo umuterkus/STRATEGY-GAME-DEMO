@@ -25,7 +25,7 @@ public class ProductionMenuCard : MonoBehaviour
     private void OnCardClicked()
     {
         if (currentData == null) return;
-        EventBus.OnPlacementStarted?.Invoke(currentData);
+        EventBus.RaisePlacementStarted(currentData);
     }
 
     private void OnDestroy()

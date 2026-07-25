@@ -42,12 +42,16 @@ public class UnitManager : MonoBehaviour
 
         activeUnits.Add(unit);
         unit.OnDied += HandleUnitDied;
+
+        Vector2Int cell = GridManager.Instance.GetGridCoordinate(spawnPos);
+        GridManager.Instance.PlaceEntity(cell, Vector2Int.one, unit);
     }
 
     private void HandleUnitDied(UnitBase unit)
     {
         unit.OnDied -= HandleUnitDied;
         activeUnits.Remove(unit);
+
         unitFactory.ReturnUnit(unit);
     }
 }

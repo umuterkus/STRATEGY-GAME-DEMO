@@ -36,5 +36,7 @@ public class InputController : MonoBehaviour
             placementController.CancelPlacement();
             return;
         }
+
+        selectionController?.TryMoveUnit();
     }
 }

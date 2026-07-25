@@ -1,34 +1,35 @@
 using System;
 using UnityEngine;
 
-public abstract class BuildingBase : MonoBehaviour, IDamageable, ISelectable
+public abstract class BuildingBase : MonoBehaviour, IDamageable, ISelectable, IGridEntity
 {
-    [SerializeField] protected BuildingDataSO buildingData;   
-    protected int currentHealth;                    
+    [SerializeField] protected BuildingDataSO buildingData;
+    protected int currentHealth;
     protected Vector2Int originCell;
 
     public Vector2Int OriginCell => originCell;
     public BuildingDataSO BuildingData => buildingData;
+    public int CurrentHealth => currentHealth;
 
-    public event Action<BuildingBase> OnDied;
-
-    
+    public event Action<IGridEntity> OnDespawned;
 
     public virtual void Initialize(BuildingDataSO buildingData, Vector2Int origin)
     {
         this.buildingData = buildingData;
         originCell = origin;
-        currentHealth = buildingData.BuildingHealth;      
+        currentHealth = buildingData.BuildingHealth;
     }
 
     public void Select()
     {
-        EventBus.OnBuildingSelected?.Invoke(this);
+        EventBus.RaiseBuildingSelected(this);
     }
+
     public void Deselect()
     {
-        EventBus.OnBuildingSelected?.Invoke(null);
+        EventBus.RaiseBuildingSelected(null);
     }
+
     public virtual void TakeDamage(int amount)
     {
         currentHealth = Mathf.Max(0, currentHealth - amount);
@@ -37,9 +38,10 @@ public abstract class BuildingBase : MonoBehaviour, IDamageable, ISelectable
 
     protected virtual void Die()
     {
-        GridManager.Instance.ClearGrids(originCell, buildingData.GridSize);
-        OnDied?.Invoke(this);
-        EventBus.OnBuildingDestroyed?.Invoke(this);
+        OnDespawned?.Invoke(this);
+
+        EventBus.RaiseBuildingDestroyed(this);
+
         Destroy(gameObject);
     }
 }

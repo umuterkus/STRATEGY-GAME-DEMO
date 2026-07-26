@@ -30,7 +30,6 @@ public class SelectionController : MonoBehaviour
                 return;
             }
         }
-
         currentUnit?.Deselect();
         currentUnit = null;
     }
@@ -39,9 +38,26 @@ public class SelectionController : MonoBehaviour
     {
         if (currentUnit == null) return;
 
+        Vector2 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
+
+        IDamageable damageableTarget = null;
+        if (hit.collider != null)
+            damageableTarget = hit.collider.GetComponentInParent<IDamageable>();
+
+        bool clickedAttackableTarget = damageableTarget != null && !ReferenceEquals(damageableTarget, currentUnit);
+
+        if (clickedAttackableTarget && currentUnit is IAttacker attacker)
+        {
+            attacker.AttackTarget(damageableTarget);
+            return;
+        }
+
         if (currentUnit is IMoveable moveable)
         {
-            Vector2 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+            if (currentUnit is IAttacker activeAttacker)
+                activeAttacker.CancelAttack();
+
             moveable.MoveTo(mousePos);
         }
     }

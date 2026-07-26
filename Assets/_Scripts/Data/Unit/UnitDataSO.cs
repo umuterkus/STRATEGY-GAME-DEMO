@@ -11,11 +11,13 @@ public class UnitData : ScriptableObject
 
     [Header("Stats")]
     [SerializeField] private int unitMaxHealth = 10;
-  
+    [SerializeField] private float moveSpeed = 3f;
+
     // Runtime protection
     public string UnitName => unitName;
-    public Sprite UnitSprite => unitIcon;
+    public Sprite UnitIcon => unitIcon;
     public GameObject UnitPrefab => unitPrefab;
     public int UnitMaxHealth => unitMaxHealth;
-  
+    public float MoveSpeed => moveSpeed;
+
 }

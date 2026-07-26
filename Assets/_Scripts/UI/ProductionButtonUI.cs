@@ -12,7 +12,7 @@ public class ProductionButtonUI : MonoBehaviour
     public void Setup(UnitData data, Action onClickAction)
     {
         if (iconImage != null)
-            iconImage.sprite = data.UnitSprite;
+            iconImage.sprite = data.UnitIcon;
 
         if (nameText != null)
             nameText.text = data.UnitName;

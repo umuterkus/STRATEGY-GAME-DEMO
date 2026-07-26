@@ -104,6 +104,88 @@ public class GridManager : MonoBehaviour
         return true;
     }
 
+    public bool MoveEntity(IGridEntity entity, Vector2Int newOrigin)
+    {
+        if (!entityRecords.TryGetValue(entity, out var record))
+            return false;
+
+        Vector2Int size = record.size;
+
+        if (!IsAreaClear(newOrigin, size))
+            return false;
+
+        for (int x = 0; x < size.x; x++)
+            for (int y = 0; y < size.y; y++)
+                SetGrid(record.origin + new Vector2Int(x, y), null);
+
+        for (int x = 0; x < size.x; x++)
+            for (int y = 0; y < size.y; y++)
+                SetGrid(newOrigin + new Vector2Int(x, y), entity);
+
+        entityRecords[entity] = (newOrigin, size);
+        return true;
+    }
+
+    public bool TryGetEntityBounds(IGridEntity entity, out Vector2Int origin, out Vector2Int size)
+    {
+        if (entityRecords.TryGetValue(entity, out var record))
+        {
+            origin = record.origin;
+            size = record.size;
+            return true;
+        }
+
+        origin = default;
+        size = default;
+        return false;
+    }
+
+    public bool AreWithinRange(Vector2Int cell, Vector2Int origin, Vector2Int size, int range)
+    {
+        int dx = Mathf.Max(0, Mathf.Max(origin.x - cell.x, cell.x - (origin.x + size.x - 1)));
+        int dy = Mathf.Max(0, Mathf.Max(origin.y - cell.y, cell.y - (origin.y + size.y - 1)));
+        return dx <= range && dy <= range;
+    }
+
+    public Vector2Int? GetNearestClearCellInRange(Vector2Int origin, Vector2Int size, int range, Vector2Int fromCell)
+    {
+        Vector2Int? best = null;
+        float bestDistSqr = float.MaxValue;
+
+        int minX = origin.x - range;
+        int maxX = origin.x + size.x - 1 + range;
+        int minY = origin.y - range;
+        int maxY = origin.y + size.y - 1 + range;
+
+        for (int x = minX; x <= maxX; x++)
+        {
+            for (int y = minY; y <= maxY; y++)
+            {
+                Vector2Int candidate = new Vector2Int(x, y);
+
+                bool insideFootprint = candidate.x >= origin.x && candidate.x < origin.x + size.x &&
+                                        candidate.y >= origin.y && candidate.y < origin.y + size.y;
+                if (insideFootprint)
+                    continue;
+
+                if (!AreWithinRange(candidate, origin, size, range))
+                    continue;
+
+                if (!IsGridClear(candidate))
+                    continue;
+
+                float distSqr = (candidate - fromCell).sqrMagnitude;
+                if (distSqr < bestDistSqr)
+                {
+                    bestDistSqr = distSqr;
+                    best = candidate;
+                }
+            }
+        }
+
+        return best;
+    }
+
     private void UnregisterEntity(IGridEntity occupant)
     {
         occupant.OnDespawned -= UnregisterEntity;

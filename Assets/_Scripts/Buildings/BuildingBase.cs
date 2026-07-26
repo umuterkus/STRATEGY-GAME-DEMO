@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public abstract class BuildingBase : MonoBehaviour, IDamageable, ISelectable, IGridEntity
+public abstract class BuildingBase : MonoBehaviour, IDamageable, ISelectable, IGridEntity, IDisplayable
 {
     [SerializeField] protected BuildingDataSO buildingData;
     protected int currentHealth;
@@ -9,6 +9,10 @@ public abstract class BuildingBase : MonoBehaviour, IDamageable, ISelectable, IG
 
     public Vector2Int OriginCell => originCell;
     public BuildingDataSO BuildingData => buildingData;
+    
+    public string DisplayName => buildingData.BuildingName;
+    public Sprite DisplayIcon => buildingData.BuildingIcon;
+    public int MaxHealth => buildingData.BuildingMaxHealth;
     public int CurrentHealth => currentHealth;
 
     public event Action<IGridEntity> OnDespawned;
@@ -17,17 +21,17 @@ public abstract class BuildingBase : MonoBehaviour, IDamageable, ISelectable, IG
     {
         this.buildingData = buildingData;
         originCell = origin;
-        currentHealth = buildingData.BuildingHealth;
+        currentHealth = buildingData.BuildingMaxHealth;
     }
 
     public void Select()
     {
-        EventBus.RaiseBuildingSelected(this);
+        EventBus.RaiseSelectableSelected(this); 
     }
 
     public void Deselect()
     {
-        EventBus.RaiseBuildingSelected(null);
+        EventBus.RaiseSelectableSelected(null); 
     }
 
     public virtual void TakeDamage(int amount)

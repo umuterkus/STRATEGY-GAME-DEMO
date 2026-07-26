@@ -25,6 +25,7 @@ public class RecyclingScrollView : MonoBehaviour
         totalItemCount = itemCount;
         itemHeightTotal = cardHeight + spacing;
         StartCoroutine(InitAfterLayout());
+
     }
 
     private IEnumerator InitAfterLayout()

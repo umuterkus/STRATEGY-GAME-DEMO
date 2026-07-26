@@ -16,5 +16,5 @@ MonoBehaviour:
   buildingSprite: {fileID: -6147806186662656429, guid: d7009bcf7fe845448bb31d0697a06e68, type: 3}
   width: 3
   height: 2
-  buildingHealth: 0
+  buildingHealth: 50
   buildingPrefab: {fileID: 7792679471539525373, guid: 0b7656fd630916c4f83435f34a2f3f17, type: 3}

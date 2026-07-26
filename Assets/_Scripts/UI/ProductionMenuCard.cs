@@ -18,7 +18,7 @@ public class ProductionMenuCard : MonoBehaviour
     public void Setup(BuildingDataSO buildingData)
     {
         currentData = buildingData;
-        buildingIcon.sprite = buildingData.BuildingSprite;
+        buildingIcon.sprite = buildingData.BuildingIcon;
         buildingNameText.text = buildingData.BuildingName;
     }
 

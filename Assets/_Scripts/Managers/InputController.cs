@@ -31,6 +31,9 @@ public class InputController : MonoBehaviour
 
     private void HandleRightClick()
     {
+        if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
+            return;
+
         if (placementController.IsPlacing)
         {
             placementController.CancelPlacement();

@@ -4,14 +4,14 @@ public class BuildingDataSO : ScriptableObject
 {
     [Header("Identity")]
     [SerializeField] private string buildingName;
-    [SerializeField] private Sprite buildingSprite;
+    [SerializeField] private Sprite buildingIcon;
 
     [Header("Dimensions")]
     [SerializeField] private int width;
     [SerializeField] private int height;
 
     [Header("Stats")]
-    [SerializeField] private int buildingHealth;
+    [SerializeField] private int buildingMaxHealth;
 
     // Cannot decide prefab database or prefab in SO
     [Header("Prefab")]
@@ -19,9 +19,9 @@ public class BuildingDataSO : ScriptableObject
 
     // Runtime protection
     public string BuildingName => buildingName;
-    public Sprite BuildingSprite => buildingSprite;
+    public Sprite BuildingIcon => buildingIcon;
     public Vector2Int GridSize => new Vector2Int(width, height);
-    public int BuildingHealth => buildingHealth;
+    public int BuildingMaxHealth => buildingMaxHealth;
     public BuildingBase BuildingPrefab => buildingPrefab;
  
 }

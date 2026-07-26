@@ -151,3 +151,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 457c5ec1899898c4e9cf121e68833b86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Soldier
+  maxPathRetries: 3

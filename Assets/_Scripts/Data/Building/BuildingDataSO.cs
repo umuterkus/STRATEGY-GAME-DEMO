@@ -11,7 +11,7 @@ public class BuildingDataSO : ScriptableObject
     [SerializeField] private int height;
 
     [Header("Stats")]
-    [SerializeField] private int buildingMaxHealth;
+    [SerializeField] private int buildingMaxHealth = 100;
 
     // Cannot decide prefab database or prefab in SO
     [Header("Prefab")]

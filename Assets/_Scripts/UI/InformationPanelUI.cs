@@ -10,8 +10,6 @@ public class InformationPanelUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI displayNameText;
     [SerializeField] private Transform productionButtonContainer;
     [SerializeField] private GameObject productionButtonPrefab;
-    [SerializeField] private TextMeshProUGUI healthText;
-
     private List<ProductionButtonUI> buttonPool = new List<ProductionButtonUI>();
 
     private void Awake()

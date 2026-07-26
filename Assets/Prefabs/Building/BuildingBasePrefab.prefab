@@ -11,9 +11,8 @@ GameObject:
   - component: {fileID: 3571100592600694377}
   - component: {fileID: 4635082633418758955}
   - component: {fileID: 2598313220689639173}
-  - component: {fileID: 7792679471539525373}
   m_Layer: 0
-  m_Name: Powerplant
+  m_Name: BuildingBasePrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -139,16 +138,3 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 3, y: 2}
   m_EdgeRadius: 0
---- !u!114 &7792679471539525373
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3616025010644444042}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ed7972f971a5d947b3224d8dc48614f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PowerPlant
-  buildingData: {fileID: 11400000, guid: 23e914b428b0a9547b7988a40449e7df, type: 2}

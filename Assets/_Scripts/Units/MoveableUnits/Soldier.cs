@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 
 
-public class Soldier : UnitBase, IAttacker
+public class Soldier : MoveableUnit, IAttacker
 {
     private IDamageable attackTargetDamageable;
     private IGridEntity attackTargetGridEntity;
@@ -24,7 +24,6 @@ public class Soldier : UnitBase, IAttacker
         CancelAttack();
         base.ResetUnit();
     }
-
 
     public void AttackTarget(IDamageable target)
     {
@@ -98,12 +97,12 @@ public class Soldier : UnitBase, IAttacker
 
             if (destinationCell == null)
             {
-
                 yield return new WaitForSeconds(noDestinationRetryDelay);
                 continue;
             }
 
             Vector2 destinationCenter = GridManager.Instance.GetGridCenterPosition(destinationCell.Value);
+
             MoveTo(destinationCenter);
 
             yield return new WaitUntil(() => !IsMoving);

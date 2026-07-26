@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public abstract class BuildingBase : MonoBehaviour, IDamageable, ISelectable, IGridEntity, IDisplayable
+public class BuildingBase : MonoBehaviour, IDamageable, ISelectable, IGridEntity, IDisplayable
 {
     [SerializeField] protected BuildingDataSO buildingData;
     protected int currentHealth;

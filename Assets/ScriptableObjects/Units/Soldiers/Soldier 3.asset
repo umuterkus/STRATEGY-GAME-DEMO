@@ -12,8 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50e080022b97fd4479b2ea061e8b53a1, type: 3}
   m_Name: Soldier 3
   m_EditorClassIdentifier: Assembly-CSharp::CombatUnitData
-  unitName: Soldier 1
-  unitIcon: {fileID: 0}
+  unitName: Soldier 3
+  unitIcon: {fileID: -6702265269783614023, guid: 2d034566c0281c849905e210df3059b6, type: 3}
   unitPrefab: {fileID: 391087225828419166, guid: 8d46c20c07b580f43b1995e47643e4d5, type: 3}
   unitMaxHealth: 10
-  attackDamage: 5
+  moveSpeed: 3
+  attackDamage: 2
+  attackRange: 1
+  attackCooldown: 2

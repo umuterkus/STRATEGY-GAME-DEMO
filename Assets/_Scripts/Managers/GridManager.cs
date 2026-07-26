@@ -9,8 +9,10 @@ public class GridManager : MonoBehaviour
     [SerializeField] private int gridHeight = 20;
     [SerializeField] private float gridSize = 1f;
 
+    //GridMap is 2 dimensional array where each grid keeps track of who occupies
     private IGridEntity[,] gridMap;
 
+    //where is this entity for unit tracking etc
     private readonly Dictionary<IGridEntity, (Vector2Int origin, Vector2Int size)> entityRecords = new();
 
     private void Awake()
@@ -24,6 +26,7 @@ public class GridManager : MonoBehaviour
         gridMap = new IGridEntity[gridWidth, gridHeight];
     }
 
+    //World position to grid
     public Vector2Int GetGridCoordinate(Vector2 worldPos)
     {
         int x = Mathf.FloorToInt(worldPos.x / gridSize);
@@ -31,13 +34,15 @@ public class GridManager : MonoBehaviour
         return new Vector2Int(x, y);
     }
 
-    public Vector2 GetGridCenterPosition(Vector2Int cell)
+    //Grid to center of the world position
+    public Vector2 GetGridCenterPosition(Vector2Int grid)
     {
-        float x = cell.x * gridSize + gridSize / 2f;
-        float y = cell.y * gridSize + gridSize / 2f;
+        float x = grid.x * gridSize + gridSize / 2f;
+        float y = grid.y * gridSize + gridSize / 2f;
         return new Vector2(x, y);
     }
 
+    //Grid to center where it is more than a grid (1x2 2x2..)
     public Vector2 GetEntityCenterPosition(Vector2Int origin, Vector2Int size)
     {
         float x = origin.x * gridSize + (size.x * gridSize) / 2f;
@@ -60,7 +65,8 @@ public class GridManager : MonoBehaviour
         return true;
     }
 
-    public Vector2Int GetNearestEmptyGrid(Vector2Int startCell, int maxRadius = 10)
+    //This is for barracks spawning units, finding nearest grid if the spawn point grid is full 
+    public Vector2Int? GetNearestEmptyGrid(Vector2Int startCell, int maxRadius = 10)
     {
         if (IsGridClear(startCell)) return startCell;
 
@@ -88,9 +94,10 @@ public class GridManager : MonoBehaviour
             }
         }
 
-        return startCell;
+        return null; 
     }
 
+    // Registers an entity on the grid and its occupied grids.
     public bool PlaceEntity(Vector2Int origin, Vector2Int size, IGridEntity occupant)
     {
         if (!IsAreaClear(origin, size)) return false;
@@ -100,6 +107,8 @@ public class GridManager : MonoBehaviour
                 SetGrid(origin + new Vector2Int(x, y), occupant);
 
         entityRecords[occupant] = (origin, size);
+
+        //When this entity despawns, its grid cells are freed automatically
         occupant.OnDespawned += UnregisterEntity;
         return true;
     }
@@ -200,10 +209,10 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    private void SetGrid(Vector2Int cell, IGridEntity occupant)
+    private void SetGrid(Vector2Int grid, IGridEntity occupant)
     {
-        if (!IsInBounds(cell)) return;
-        gridMap[cell.x, cell.y] = occupant;
+        if (!IsInBounds(grid)) return;
+        gridMap[grid.x, grid.y] = occupant;
     }
 
     private bool IsInBounds(Vector2Int cell)

@@ -10,9 +10,16 @@ public class Barracks : BuildingBase, IUnitProducable
 
     public void ProduceUnit(UnitData unitData)
     {
-        Vector2Int spawnCell = GridManager.Instance.GetGridCoordinate(spawnPoint.position);
-        Vector2Int emptyGrid = GridManager.Instance.GetNearestEmptyGrid(spawnCell);
-        Vector2 spawnPos = GridManager.Instance.GetGridCenterPosition(emptyGrid);
+        Vector2Int spawnGrid = GridManager.Instance.GetGridCoordinate(spawnPoint.position);
+        Vector2Int? emptyGrid = GridManager.Instance.GetNearestEmptyGrid(spawnGrid);
+
+        if (emptyGrid == null)
+        {
+            Debug.LogWarning($"{name}: No empty cell found near spawn point, unit production skipped.");
+            return;
+        }
+
+        Vector2 spawnPos = GridManager.Instance.GetGridCenterPosition(emptyGrid.Value);
         EventBus.RaiseUnitProduced(unitData, spawnPos);
     }
 }

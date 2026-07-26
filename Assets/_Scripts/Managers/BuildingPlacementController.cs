@@ -3,15 +3,19 @@ using UnityEngine;
 public class BuildingPlacementController : MonoBehaviour
 {
     [SerializeField] private Camera mainCamera;
+    [SerializeField] private Transform buildingsContainer;
     private BuildingDataSO currentBuildingData;
     private GameObject previewInstance;
     private SpriteRenderer[] previewRenderers;
+    private IBuildingFactory buildingFactory;
     public bool IsPlacing => currentBuildingData != null;
 
     private void Awake()
     {
         if (mainCamera == null)
             mainCamera = Camera.main;
+
+        buildingFactory = new BuildingFactory();
     }
 
     private void OnEnable()
@@ -37,6 +41,8 @@ public class BuildingPlacementController : MonoBehaviour
         if (buildingData.BuildingPrefab == null) return;
 
         previewInstance = Instantiate(buildingData.BuildingPrefab.gameObject);
+
+        //To avoid any bugs
         BuildingBase buildingScript = previewInstance.GetComponent<BuildingBase>();
         if (buildingScript != null)
             buildingScript.enabled = false;
@@ -73,7 +79,8 @@ public class BuildingPlacementController : MonoBehaviour
 
         Vector2 worldPos = GridManager.Instance.GetEntityCenterPosition(targetCell, currentBuildingData.GridSize);
 
-        BuildingBase instance = BuildingFactory.Create(currentBuildingData, worldPos, targetCell);
+        BuildingBase instance = buildingFactory.Create(currentBuildingData, worldPos, targetCell);
+        instance.transform.SetParent(buildingsContainer);
 
         bool occupied = GridManager.Instance.PlaceEntity(targetCell, currentBuildingData.GridSize, instance);
         if (!occupied)

@@ -9,7 +9,7 @@ public class Soldier : MoveableUnit, IAttacker
     private Coroutine attackCoroutine;
     public bool IsAttacking => attackCoroutine != null;
 
-    private CombatUnitData CombatData => UnitData as CombatUnitData;
+    private CombatUnitData CombatData => UnitData as CombatUnitData; //using as for null check in case 
 
     public int AttackDamage => CombatData.AttackDamage;
 

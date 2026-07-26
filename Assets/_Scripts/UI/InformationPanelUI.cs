@@ -9,27 +9,36 @@ public class InformationPanelUI : MonoBehaviour
     [SerializeField] private Image displayImage;
     [SerializeField] private TextMeshProUGUI displayNameText;
     [SerializeField] private Transform productionButtonContainer;
-    [SerializeField] private GameObject productionButtonPrefab;
-    private List<ProductionButtonUI> buttonPool = new List<ProductionButtonUI>();
+    [SerializeField] private ProductionButtonUI productionButtonPrefab;
+    [SerializeField] private int initialPoolSize = 3;
+
+    private ComponentPool<ProductionButtonUI> buttonPool;
+    private readonly List<ProductionButtonUI> activeButtons = new List<ProductionButtonUI>();
 
     private void Awake()
     {
         if (panelRoot != null)
             panelRoot.SetActive(false);
+
+        //Using component pool
+        buttonPool = new ComponentPool<ProductionButtonUI>(productionButtonPrefab, productionButtonContainer, initialPoolSize);
     }
 
+    //Listening player clicks
     private void OnEnable()
     {
-        EventBus.OnSelectableSelected += HandleSelectableSelected;
+        EventBus.OnSelectableSelected += HandleSelected;
     }
 
     private void OnDisable()
     {
-        EventBus.OnSelectableSelected -= HandleSelectableSelected;
+        EventBus.OnSelectableSelected -= HandleSelected;
     }
 
-    private void HandleSelectableSelected(ISelectable selectable)
+    private void HandleSelected(ISelectable selectable)
     {
+        // Clears previously selected ISelectable
+
         ClearProductionButtons();
 
         if (selectable is not IDisplayable displayable)
@@ -45,37 +54,22 @@ public class InformationPanelUI : MonoBehaviour
 
         if (selectable is IUnitProducable producer)
         {
-            int index = 0;
             foreach (UnitData soldierData in producer.ProduceableUnits)
             {
-                ProductionButtonUI btnUI = GetOrCreateButton(index);
-                index++;
+                ProductionButtonUI button = buttonPool.Get();
+                activeButtons.Add(button);
 
                 UnitData capturedData = soldierData;
-                btnUI.Setup(capturedData, () => producer.ProduceUnit(capturedData));
-                btnUI.gameObject.SetActive(true);
+                button.Setup(capturedData, () => producer.ProduceUnit(capturedData));
             }
         }
     }
 
-    private ProductionButtonUI GetOrCreateButton(int index)
-    {
-        if (index < buttonPool.Count)
-        {
-            return buttonPool[index];
-        }
-
-        GameObject btnObj = Instantiate(productionButtonPrefab, productionButtonContainer);
-        ProductionButtonUI btnUI = btnObj.GetComponent<ProductionButtonUI>();
-        buttonPool.Add(btnUI);
-        return btnUI;
-    }
-
     private void ClearProductionButtons()
     {
-        foreach (var btn in buttonPool)
-        {
-            btn.gameObject.SetActive(false);
-        }
+        foreach (var button in activeButtons)
+            buttonPool.Release(button);
+
+        activeButtons.Clear();
     }
 }

@@ -22,14 +22,22 @@ public class BuildingBase : MonoBehaviour, IDamageable, ISelectable, IGridEntity
         this.buildingData = buildingData;
         originCell = origin;
         currentHealth = buildingData.BuildingMaxHealth;
+
+        //I added this for extra protection in case box colider size
+
+        BoxCollider2D col = GetComponent<BoxCollider2D>();
+        if (col != null)
+            col.size = buildingData.GridSize;
+        
     }
 
-    public void Select()
+
+    public virtual void Select()
     {
         EventBus.RaiseSelectableSelected(this); 
     }
 
-    public void Deselect()
+    public virtual void Deselect()
     {
         EventBus.RaiseSelectableSelected(null); 
     }

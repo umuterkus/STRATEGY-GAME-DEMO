@@ -16,5 +16,5 @@ MonoBehaviour:
   buildingIcon: {fileID: 0}
   width: 2
   height: 2
-  buildingMaxHealth: 100
-  buildingPrefab: {fileID: 0}
+  buildingMaxHealth: 15
+  buildingPrefab: {fileID: 5234319504170263240, guid: df7ce2584171bc64583a17335b5e3f34, type: 3}

@@ -15,8 +15,8 @@ public abstract class UnitBase : MonoBehaviour, IDamageable, ISelectable, IGridE
 
     protected bool isDead;
 
-    public event Action<UnitBase> OnDied;
-    public event Action<IGridEntity> OnDespawned; //Units, Building etc will use.
+    public event Action<UnitBase> OnDied; //This is different then despawn, UI/score updating, unitmanager pool
+    public event Action<IGridEntity> OnDespawned; //Units, Building etc will use when used empty grid cell.
 
     public virtual void Initialize(UnitData data, Vector2 spawnPosition)
     {
@@ -36,6 +36,7 @@ public abstract class UnitBase : MonoBehaviour, IDamageable, ISelectable, IGridE
     protected virtual void Die()
     {
         isDead = true;
+
 
         OnDied?.Invoke(this);
         OnDespawned?.Invoke(this);

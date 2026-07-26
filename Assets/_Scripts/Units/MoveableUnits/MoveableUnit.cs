@@ -4,6 +4,7 @@ using UnityEngine;
 
 public abstract class MoveableUnit : UnitBase, IMoveable
 {
+    //If the grid cell is full, this variable how many decide how many tries
     [SerializeField] private int maxPathRetries = 3;
 
     private bool isMoving;
@@ -11,7 +12,7 @@ public abstract class MoveableUnit : UnitBase, IMoveable
 
     private List<Vector2Int> currentPath;
     private int currentPathIndex;
-    private Vector2Int finalTargetCell;
+    private Vector2Int finalTargetGrid;
     private int currentRetryCount;
     private Coroutine moveCoroutine;
 
@@ -29,10 +30,10 @@ public abstract class MoveableUnit : UnitBase, IMoveable
 
     public void MoveTo(Vector2 targetPosition)
     {
-        Vector2Int ownCell = GridManager.Instance.GetGridCoordinate(transform.position);
-        Vector2Int targetCell = GridManager.Instance.GetGridCoordinate(targetPosition);
+        Vector2Int ownGrid = GridManager.Instance.GetGridCoordinate(transform.position);
+        Vector2Int targetGrid = GridManager.Instance.GetGridCoordinate(targetPosition);
 
-        List<Vector2Int> path = PathfindingManager.Instance.RequestPath(ownCell, targetCell, ownCell);
+        List<Vector2Int> path = PathfindingManager.Instance.RequestPath(ownGrid, targetGrid, ownGrid);
 
         if (path == null)
             return; 
@@ -40,7 +41,7 @@ public abstract class MoveableUnit : UnitBase, IMoveable
         if (moveCoroutine != null)
             StopCoroutine(moveCoroutine);
 
-        finalTargetCell = targetCell;
+        finalTargetGrid = targetGrid;
         currentPath = path;
         currentPathIndex = 0;
         currentRetryCount = 0;
@@ -63,9 +64,9 @@ public abstract class MoveableUnit : UnitBase, IMoveable
 
         while (currentPathIndex < currentPath.Count)
         {
-            Vector2Int nextCell = currentPath[currentPathIndex];
+            Vector2Int nextGrid = currentPath[currentPathIndex];
 
-            if (!GridManager.Instance.IsGridClear(nextCell))
+            if (!GridManager.Instance.IsGridClear(nextGrid))
             {
                 currentRetryCount++;
 
@@ -75,10 +76,11 @@ public abstract class MoveableUnit : UnitBase, IMoveable
                     yield break;
                 }
 
+                //Using random.range because preventing 2 unit cannot block each other
                 yield return new WaitForSeconds(UnityEngine.Random.Range(minWaitSeconds, maxWaitSeconds));
 
-                Vector2Int currentCell = GridManager.Instance.GetGridCoordinate(transform.position);
-                List<Vector2Int> newPath = PathfindingManager.Instance.RequestPath(currentCell, finalTargetCell, currentCell);
+                Vector2Int currentGrid = GridManager.Instance.GetGridCoordinate(transform.position);
+                List<Vector2Int> newPath = PathfindingManager.Instance.RequestPath(currentGrid, finalTargetGrid, currentGrid);
 
                 if (newPath != null)
                 {
@@ -90,9 +92,9 @@ public abstract class MoveableUnit : UnitBase, IMoveable
             }
 
             currentRetryCount = 0;
-            GridManager.Instance.MoveEntity(this, nextCell);
+            GridManager.Instance.MoveEntity(this, nextGrid);
 
-            Vector2 targetCenter = GridManager.Instance.GetGridCenterPosition(nextCell);
+            Vector2 targetCenter = GridManager.Instance.GetGridCenterPosition(nextGrid);
             Vector3 targetWorldPos = new Vector3(targetCenter.x, targetCenter.y, transform.position.z);
 
             while (Vector3.Distance(transform.position, targetWorldPos) > arrivalThreshold)

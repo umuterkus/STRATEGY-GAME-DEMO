@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Pathfinder
 {
+    //Calculating moving diagonal so it is 1.4
     private static readonly float DiagonalCost = Mathf.Sqrt(2f);
 
     private static readonly Vector2Int[] StraightDirections =

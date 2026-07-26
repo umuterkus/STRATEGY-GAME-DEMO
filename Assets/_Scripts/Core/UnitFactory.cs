@@ -32,6 +32,7 @@ public class UnitFactory
     public void ReturnUnit(UnitBase unit)
     {
         UnitData data = unit.UnitData;
+        //Reseting unit means clearing attack target or path etc
         unit.ResetUnit();
         if (data != null && pools.ContainsKey(data))
             pools[data].Release(unit);

@@ -3,6 +3,7 @@ using UnityEngine;
 public class BuildingPlacementController : MonoBehaviour
 {
     [SerializeField] private Camera mainCamera;
+    [SerializeField] private Transform buildingsContainer;
     private BuildingDataSO currentBuildingData;
     private GameObject previewInstance;
     private SpriteRenderer[] previewRenderers;
@@ -74,6 +75,7 @@ public class BuildingPlacementController : MonoBehaviour
         Vector2 worldPos = GridManager.Instance.GetEntityCenterPosition(targetCell, currentBuildingData.GridSize);
 
         BuildingBase instance = BuildingFactory.Create(currentBuildingData, worldPos, targetCell);
+        instance.transform.SetParent(buildingsContainer);
 
         bool occupied = GridManager.Instance.PlaceEntity(targetCell, currentBuildingData.GridSize, instance);
         if (!occupied)

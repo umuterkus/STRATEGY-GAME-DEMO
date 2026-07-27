@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42930af877ee1aa478f553d07f30f5eb, type: 3}
   m_Name: Warehouse
   m_EditorClassIdentifier: Assembly-CSharp::BuildingData
-  buildingName: Power Plant
-  buildingIcon: {fileID: -6147806186662656429, guid: d7009bcf7fe845448bb31d0697a06e68, type: 3}
+  buildingName: Warehouse
+  buildingIcon: {fileID: -2083714692, guid: 79d42fb7b382efc49b5a9e63204ac560, type: 3}
   width: 2
-  height: 3
-  buildingMaxHealth: 50
-  buildingPrefab: {fileID: 7792679471539525373, guid: 0b7656fd630916c4f83435f34a2f3f17, type: 3}
+  height: 2
+  buildingMaxHealth: 25
+  buildingPrefab: {fileID: 3679383189500517231, guid: 171c644bca82cca4c91a3cae4a9bf303, type: 3}

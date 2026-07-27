@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Barrack
   m_EditorClassIdentifier: Assembly-CSharp::BuildingData
   buildingName: Barracks
-  buildingIcon: {fileID: 6606266768642772197, guid: db300a56490186a44b7e1b79b9a8123f, type: 3}
+  buildingIcon: {fileID: -1573507108, guid: 79d42fb7b382efc49b5a9e63204ac560, type: 3}
   width: 4
   height: 4
   buildingMaxHealth: 100

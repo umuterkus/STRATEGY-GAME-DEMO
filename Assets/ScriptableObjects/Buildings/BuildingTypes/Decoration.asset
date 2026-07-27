@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Decoration
   m_EditorClassIdentifier: Assembly-CSharp::BuildingData
   buildingName: Power Plant
-  buildingIcon: {fileID: -6147806186662656429, guid: d7009bcf7fe845448bb31d0697a06e68, type: 3}
+  buildingIcon: {fileID: -1281715348, guid: 79d42fb7b382efc49b5a9e63204ac560, type: 3}
   width: 1
   height: 1
   buildingMaxHealth: 1
-  buildingPrefab: {fileID: 7792679471539525373, guid: 0b7656fd630916c4f83435f34a2f3f17, type: 3}
+  buildingPrefab: {fileID: 3679383189500517231, guid: 171c644bca82cca4c91a3cae4a9bf303, type: 3}

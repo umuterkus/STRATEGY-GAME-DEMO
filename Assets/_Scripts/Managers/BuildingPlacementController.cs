@@ -14,7 +14,6 @@ public class BuildingPlacementController : MonoBehaviour
     {
         if (mainCamera == null)
             mainCamera = Camera.main;
-
         buildingFactory = new BuildingFactory();
     }
 
@@ -42,7 +41,6 @@ public class BuildingPlacementController : MonoBehaviour
 
         previewInstance = Instantiate(buildingData.BuildingPrefab.gameObject);
 
-        //To avoid any bugs
         BuildingBase buildingScript = previewInstance.GetComponent<BuildingBase>();
         if (buildingScript != null)
             buildingScript.enabled = false;
@@ -52,12 +50,23 @@ public class BuildingPlacementController : MonoBehaviour
             col.enabled = false;
 
         previewRenderers = previewInstance.GetComponentsInChildren<SpriteRenderer>();
+
+        // Initialize() is skipped for the preview, so assign the icon manually here.
+        foreach (var renderer in previewRenderers)
+            renderer.sprite = buildingData.BuildingIcon;
+    }
+
+    // Shared by preview and placement so both always agree on the same cell.
+    private Vector2Int GetOriginCellCenteredOnMouse(Vector2 mouseWorldPos, Vector2Int size)
+    {
+        Vector2Int mouseCell = GridManager.Instance.GetGridCoordinate(mouseWorldPos);
+        return new Vector2Int(mouseCell.x - size.x / 2, mouseCell.y - size.y / 2);
     }
 
     private void UpdatePreviewPositionAndColor()
     {
         Vector2 mouseWorldPos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-        Vector2Int targetCell = GridManager.Instance.GetGridCoordinate(mouseWorldPos);
+        Vector2Int targetCell = GetOriginCellCenteredOnMouse(mouseWorldPos, currentBuildingData.GridSize);
         Vector2 centerPos = GridManager.Instance.GetEntityCenterPosition(targetCell, currentBuildingData.GridSize);
         previewInstance.transform.position = centerPos;
 
@@ -72,7 +81,7 @@ public class BuildingPlacementController : MonoBehaviour
         if (!IsPlacing) return;
 
         Vector2 mouseWorldPos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-        Vector2Int targetCell = GridManager.Instance.GetGridCoordinate(mouseWorldPos);
+        Vector2Int targetCell = GetOriginCellCenteredOnMouse(mouseWorldPos, currentBuildingData.GridSize);
 
         if (!GridManager.Instance.IsAreaClear(targetCell, currentBuildingData.GridSize))
             return;
@@ -90,7 +99,6 @@ public class BuildingPlacementController : MonoBehaviour
         }
 
         EventBus.RaiseBuildingPlaced(instance);
-
         CancelPlacement();
     }
 

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Powerplant
   m_EditorClassIdentifier: Assembly-CSharp::BuildingData
   buildingName: Power Plant
-  buildingIcon: {fileID: -6147806186662656429, guid: d7009bcf7fe845448bb31d0697a06e68, type: 3}
+  buildingIcon: {fileID: -1144186882, guid: 79d42fb7b382efc49b5a9e63204ac560, type: 3}
   width: 2
   height: 3
   buildingMaxHealth: 50

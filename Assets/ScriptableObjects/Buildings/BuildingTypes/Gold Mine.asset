@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Gold Mine
   m_EditorClassIdentifier: Assembly-CSharp::BuildingDataSO
   buildingName: Gold Mine
-  buildingIcon: {fileID: 0}
+  buildingIcon: {fileID: -1915711864, guid: 79d42fb7b382efc49b5a9e63204ac560, type: 3}
   width: 2
   height: 2
   buildingMaxHealth: 15
-  buildingPrefab: {fileID: 5234319504170263240, guid: df7ce2584171bc64583a17335b5e3f34, type: 3}
+  buildingPrefab: {fileID: 3679383189500517231, guid: 171c644bca82cca4c91a3cae4a9bf303, type: 3}

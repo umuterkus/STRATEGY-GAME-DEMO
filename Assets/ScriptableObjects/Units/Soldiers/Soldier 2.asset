@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Soldier 2
   m_EditorClassIdentifier: Assembly-CSharp::CombatUnitData
   unitName: Soldier 2
-  unitIcon: {fileID: 0}
+  unitIcon: {fileID: 414601770, guid: 79d42fb7b382efc49b5a9e63204ac560, type: 3}
   unitPrefab: {fileID: 391087225828419166, guid: 33f92e76ad423184f9681726dfa98ea0, type: 3}
   unitMaxHealth: 10
   moveSpeed: 3

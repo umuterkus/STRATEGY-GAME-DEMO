@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Farm
   m_EditorClassIdentifier: Assembly-CSharp::BuildingData
   buildingName: Farm
-  buildingIcon: {fileID: 0}
-  width: 3
-  height: 5
+  buildingIcon: {fileID: -2083714692, guid: 79d42fb7b382efc49b5a9e63204ac560, type: 3}
+  width: 2
+  height: 2
   buildingMaxHealth: 25
-  buildingPrefab: {fileID: 5234319504170263240, guid: b551bdc0223cbee459cba4f0ed288875, type: 3}
+  buildingPrefab: {fileID: 3679383189500517231, guid: 171c644bca82cca4c91a3cae4a9bf303, type: 3}

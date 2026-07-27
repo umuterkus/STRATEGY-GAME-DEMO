@@ -28,7 +28,11 @@ public class BuildingBase : MonoBehaviour, IDamageable, ISelectable, IGridEntity
         BoxCollider2D col = GetComponent<BoxCollider2D>();
         if (col != null)
             col.size = buildingData.GridSize;
-        
+
+        // Sync the world-space visual with the data-driven icon.
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        if (sr != null)
+            sr.sprite = buildingData.BuildingIcon;
     }
 
 

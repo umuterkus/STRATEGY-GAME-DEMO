@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Adds pathfinding and grid movement on top of UnitBase. For any unit that walks.
+/// </summary>
 public abstract class MoveableUnit : UnitBase, IMoveable
 {
     //If the grid cell is full, this variable how many decide how many tries
@@ -56,6 +59,7 @@ public abstract class MoveableUnit : UnitBase, IMoveable
         moveCoroutine = StartCoroutine(FollowPath());
     }
 
+    // Walks the unit along the path one grid at a time, replanning if a grid gets blocked.
     private IEnumerator FollowPath()
     {
         const float minWaitSeconds = 0.4f;
@@ -111,6 +115,7 @@ public abstract class MoveableUnit : UnitBase, IMoveable
         moveCoroutine = null;
     }
 
+    // Stops any movement and clears path state.
     protected void CancelMovement()
     {
         if (moveCoroutine != null)

@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Warehouse
   m_EditorClassIdentifier: Assembly-CSharp::BuildingData
   buildingName: Warehouse
-  buildingIcon: {fileID: -2083714692, guid: 79d42fb7b382efc49b5a9e63204ac560, type: 3}
-  width: 2
-  height: 2
+  buildingIcon: {fileID: -829182655, guid: 37a044cbf338ece478f4ddf52aa15d60, type: 3}
+  width: 3
+  height: 3
   buildingMaxHealth: 25
   buildingPrefab: {fileID: 3679383189500517231, guid: 171c644bca82cca4c91a3cae4a9bf303, type: 3}

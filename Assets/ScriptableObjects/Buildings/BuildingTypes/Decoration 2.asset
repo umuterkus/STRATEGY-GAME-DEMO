@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Decoration 2
   m_EditorClassIdentifier: Assembly-CSharp::BuildingData
   buildingName: Decoration
-  buildingIcon: {fileID: 155180257, guid: 79d42fb7b382efc49b5a9e63204ac560, type: 3}
+  buildingIcon: {fileID: -2118439308, guid: 37a044cbf338ece478f4ddf52aa15d60, type: 3}
   width: 1
   height: 1
   buildingMaxHealth: 1

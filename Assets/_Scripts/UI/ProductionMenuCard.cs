@@ -2,6 +2,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+/// <summary>
+/// Displays a single buildings icon and name on its card, and raises event when the card is clicked. 
+/// Acts as the MVC layer.
+/// </summary>
 public class ProductionMenuCard : MonoBehaviour
 {
     [SerializeField] private Image buildingIcon;

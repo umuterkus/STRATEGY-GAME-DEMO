@@ -1,18 +1,24 @@
-using UnityEngine;
-
+using System;
 
 public class GridRecycler
 {
+    // Column count in the panel
     public int Columns { get; }
+
+    // Total building count
     public int TotalItemCount { get; }
+
+    // Total building count devided by 2
     public int TotalRowCount { get; }
     public int TopRowIndex { get; private set; }
 
+
+    // Init
     public GridRecycler(int totalItemCount, int columns)
     {
         TotalItemCount = totalItemCount;
         Columns = columns;
-        TotalRowCount = Mathf.CeilToInt((float)totalItemCount / columns);
+        TotalRowCount = (int)Math.Ceiling((double)totalItemCount / columns);
         TopRowIndex = 0;
     }
 
@@ -25,9 +31,11 @@ public class GridRecycler
         return raw < TotalItemCount ? raw : -1;
     }
 
+    // Called when the user scrolls down. Moves the visible window one row forward
+
     public int[] AdvanceOneRow(int visibleRowCount)
     {
-        int maxTopRow = Mathf.Max(0, TotalRowCount - visibleRowCount);
+        int maxTopRow = Math.Max(0, TotalRowCount - visibleRowCount);
         if (TopRowIndex >= maxTopRow) return null;
 
         TopRowIndex++;
@@ -38,6 +46,7 @@ public class GridRecycler
         return indices;
     }
 
+    // Called when the user scrolls up. Moves the visible window one row back
     public int[] RetreatOneRow()
     {
         if (TopRowIndex <= 0) return null;

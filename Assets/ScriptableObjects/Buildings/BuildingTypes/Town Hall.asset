@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Town Hall
   m_EditorClassIdentifier: Assembly-CSharp::BuildingData
   buildingName: Town Hall
-  buildingIcon: {fileID: -1915711864, guid: 79d42fb7b382efc49b5a9e63204ac560, type: 3}
+  buildingIcon: {fileID: -666053779, guid: 37a044cbf338ece478f4ddf52aa15d60, type: 3}
   width: 4
   height: 4
   buildingMaxHealth: 50

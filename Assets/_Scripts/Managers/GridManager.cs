@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+//It is the central system that tracks what occupies each grid cell,
+//handles placing and moving entities, and provides range queries used by other systems attack or move to.
 public class GridManager : MonoBehaviour
 {
     public static GridManager Instance { get; private set; }
@@ -50,10 +53,10 @@ public class GridManager : MonoBehaviour
         return new Vector2(x, y);
     }
 
-    public bool IsGridClear(Vector2Int cell)
+    public bool IsGridClear(Vector2Int grid)
     {
-        if (!IsInBounds(cell)) return false;
-        return gridMap[cell.x, cell.y] == null;
+        if (!IsInBounds(grid)) return false;
+        return gridMap[grid.x, grid.y] == null;
     }
 
     public bool IsAreaClear(Vector2Int origin, Vector2Int size)
@@ -66,9 +69,9 @@ public class GridManager : MonoBehaviour
     }
 
     //This is for barracks spawning units, finding nearest grid if the spawn point grid is full 
-    public Vector2Int? GetNearestEmptyGrid(Vector2Int startCell, int maxRadius = 10)
+    public Vector2Int? GetNearestEmptyGrid(Vector2Int startGrid, int maxRadius = 10)
     {
-        if (IsGridClear(startCell)) return startCell;
+        if (IsGridClear(startGrid)) return startGrid;
 
         for (int radius = 1; radius <= maxRadius; radius++)
         {
@@ -78,7 +81,7 @@ public class GridManager : MonoBehaviour
                 for (int y = -radius; y <= radius; y++)
                 {
                     if (Mathf.Abs(x) != radius && Mathf.Abs(y) != radius) continue;
-                    ringCells.Add(startCell + new Vector2Int(x, y));
+                    ringCells.Add(startGrid + new Vector2Int(x, y));
                 }
             }
 
@@ -113,6 +116,8 @@ public class GridManager : MonoBehaviour
         return true;
     }
 
+
+    //Moves an entity to a new location clears its old grid, places it in the new grid if that area is free
     public bool MoveEntity(IGridEntity entity, Vector2Int newOrigin)
     {
         if (!entityRecords.TryGetValue(entity, out var record))
@@ -135,6 +140,7 @@ public class GridManager : MonoBehaviour
         return true;
     }
 
+    //Returns an entity grid position and size if it is full,
     public bool TryGetEntityBounds(IGridEntity entity, out Vector2Int origin, out Vector2Int size)
     {
         if (entityRecords.TryGetValue(entity, out var record))
@@ -149,6 +155,7 @@ public class GridManager : MonoBehaviour
         return false;
     }
 
+    // Checks the range of the targets grid
     public bool AreWithinRange(Vector2Int cell, Vector2Int origin, Vector2Int size, int range)
     {
         int dx = Mathf.Max(0, Mathf.Max(origin.x - cell.x, cell.x - (origin.x + size.x - 1)));
@@ -156,7 +163,8 @@ public class GridManager : MonoBehaviour
         return dx <= range && dy <= range;
     }
 
-    public Vector2Int? GetNearestClearCellInRange(Vector2Int origin, Vector2Int size, int range, Vector2Int fromCell)
+    // Finds the closest free grid with in the range.
+    public Vector2Int? GetNearestClearGridInRange(Vector2Int origin, Vector2Int size, int range, Vector2Int fromCell)
     {
         Vector2Int? best = null;
         float bestDistSqr = float.MaxValue;
@@ -195,6 +203,7 @@ public class GridManager : MonoBehaviour
         return best;
     }
 
+    //Called when an entity despawns and unsubscribes from its event, clears the grid cells it occupied, and removes its record
     private void UnregisterEntity(IGridEntity occupant)
     {
         occupant.OnDespawned -= UnregisterEntity;
@@ -209,14 +218,17 @@ public class GridManager : MonoBehaviour
         }
     }
 
+    //Assigns an entity to a specific grid cell
     private void SetGrid(Vector2Int grid, IGridEntity occupant)
     {
         if (!IsInBounds(grid)) return;
         gridMap[grid.x, grid.y] = occupant;
     }
 
-    private bool IsInBounds(Vector2Int cell)
-        => cell.x >= 0 && cell.x < gridWidth && cell.y >= 0 && cell.y < gridHeight;
+
+    //Checks whether a given grid falls within the grid's width and height limits.
+    private bool IsInBounds(Vector2Int grid)
+        => grid.x >= 0 && grid.x < gridWidth && grid.y >= 0 && grid.y < gridHeight;
 
     private void OnDrawGizmos()
     {

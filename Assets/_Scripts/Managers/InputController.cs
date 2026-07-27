@@ -1,45 +1,47 @@
-using UnityEngine;
-using UnityEngine.EventSystems;
+//using UnityEngine;
+//using UnityEngine.EventSystems;
 
-public class InputController : MonoBehaviour
-{
-    [SerializeField] private BuildingPlacementController placementController;
-    [SerializeField] private SelectionController selectionController;
+// OLD VERSION OF INPUT SYSTEM
+ 
+//public class InputController : MonoBehaviour
+//{
+//    [SerializeField] private BuildingPlacementController placementController;
+//    [SerializeField] private SelectionController selectionController;
 
-    private void Update()
-    {
-        if (Input.GetMouseButtonDown(0))
-            HandleLeftClick();
+//    private void Update()
+//    {
+//        if (Input.GetMouseButtonDown(0))
+//            HandleLeftClick();
 
-        if (Input.GetMouseButtonDown(1))
-            HandleRightClick();
-    }
+//        if (Input.GetMouseButtonDown(1))
+//            HandleRightClick();
+//    }
 
-    private void HandleLeftClick()
-    {
-        if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
-            return;
+//    private void HandleLeftClick()
+//    {
+//        if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
+//            return;
 
-        if (placementController.IsPlacing)
-        {
-            placementController.TryPlace();
-            return;
-        }
+//        if (placementController.IsPlacing)
+//        {
+//            placementController.TryPlace();
+//            return;
+//        }
 
-        selectionController.TrySelect();
-    }
+//        selectionController.TrySelect();
+//    }
 
-    private void HandleRightClick()
-    {
-        if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
-            return;
+//    private void HandleRightClick()
+//    {
+//        if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
+//            return;
 
-        if (placementController.IsPlacing)
-        {
-            placementController.CancelPlacement();
-            return;
-        }
+//        if (placementController.IsPlacing)
+//        {
+//            placementController.CancelPlacement();
+//            return;
+//        }
 
-        selectionController?.TryMoveUnit();
-    }
-}
+//        selectionController?.TryMoveUnit();
+//    }
+//}

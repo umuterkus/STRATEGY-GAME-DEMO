@@ -1,8 +1,10 @@
 using System.Collections;
 using UnityEngine;
 
-
-public class Soldier : MoveableUnit, IAttacker
+/// <summary>
+/// Adds combat on top of MoveableUnit, attacking targets, checking range, dealing damage.
+/// </summary>
+public class CombatUnit : MoveableUnit, IAttacker
 {
     private IDamageable attackTargetDamageable;
     private IGridEntity attackTargetGridEntity;
@@ -27,7 +29,7 @@ public class Soldier : MoveableUnit, IAttacker
 
     public void AttackTarget(IDamageable target)
     {
-        if (target == null || ReferenceEquals(target, this))
+        if (target == null || ReferenceEquals(target, this)) // Do not let unit attack himself
             return;
 
         if (CombatData == null)
@@ -40,12 +42,15 @@ public class Soldier : MoveableUnit, IAttacker
             return;
         }
 
+        // Clears any previous attacks
         CancelAttack();
 
+        // If enemy dies it will alerted by HandleAttackTargetDespawned so can cancel the attack.
         attackTargetDamageable = target;
         attackTargetGridEntity = gridEntity;
         attackTargetGridEntity.OnDespawned += HandleAttackTargetDespawned;
 
+        
         attackCoroutine = StartCoroutine(AttackRoutine());
     }
 
@@ -75,25 +80,29 @@ public class Soldier : MoveableUnit, IAttacker
 
         while (true)
         {
+            // If somehow cannot get enemy grid, the attack gets canceled
             if (!GridManager.Instance.TryGetEntityBounds(attackTargetGridEntity, out Vector2Int targetOrigin, out Vector2Int targetSize))
             {
                 CancelAttack();
                 yield break;
             }
 
-            Vector2Int ownCell = GridManager.Instance.GetGridCoordinate(transform.position);
+            
+            Vector2Int ownGrid = GridManager.Instance.GetGridCoordinate(transform.position);
 
-            if (GridManager.Instance.AreWithinRange(ownCell, targetOrigin, targetSize, CombatData.AttackRange))
+
+            // Check if the enemy near the range
+            if (GridManager.Instance.AreWithinRange(ownGrid, targetOrigin, targetSize, CombatData.AttackRange))
             {
-                Debug.Log($"{name}, hedefe {CombatData.AttackDamage} hasar vurdu! Hedef Kalan Can: {attackTargetDamageable.CurrentHealth - CombatData.AttackDamage}");
+                //Debug.Log($"{name}, hits the target {CombatData.AttackDamage} damage! Remaining health: {attackTargetDamageable.CurrentHealth - CombatData.AttackDamage}");
 
                 attackTargetDamageable.TakeDamage(CombatData.AttackDamage);
                 yield return new WaitForSeconds(CombatData.AttackCooldown);
                 continue;
             }
 
-            Vector2Int? destinationCell = GridManager.Instance.GetNearestClearCellInRange(
-                targetOrigin, targetSize, CombatData.AttackRange, ownCell);
+            Vector2Int? destinationCell = GridManager.Instance.GetNearestClearGridInRange(
+                targetOrigin, targetSize, CombatData.AttackRange, ownGrid);
 
             if (destinationCell == null)
             {

@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
-public class InputControllerNewInputSystem : MonoBehaviour
+public class InputController : MonoBehaviour
 {
     [SerializeField] private BuildingPlacementController placementController;
     [SerializeField] private SelectionController selectionController;

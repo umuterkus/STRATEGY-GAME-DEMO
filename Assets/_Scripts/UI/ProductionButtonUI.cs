@@ -3,6 +3,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+/// <summary>
+/// Displays a unit's icon and name on a button, when clicked 
+/// Acts as the MVC layer.
+/// </summary>
 public class ProductionButtonUI : MonoBehaviour
 {
     [SerializeField] private Image iconImage;

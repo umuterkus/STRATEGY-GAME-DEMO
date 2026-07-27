@@ -20,11 +20,11 @@ public class InformationPanelUI : MonoBehaviour
         if (panelRoot != null)
             panelRoot.SetActive(false);
 
-        //Using component pool
+        // Create a small pool of buttons
         buttonPool = new ComponentPool<ProductionButtonUI>(productionButtonPrefab, productionButtonContainer, initialPoolSize);
     }
 
-    //Listening player clicks
+    // Listen for any selection change in the game (buildings or units right now)
     private void OnEnable()
     {
         EventBus.OnSelectableSelected += HandleSelected;
@@ -35,12 +35,16 @@ public class InformationPanelUI : MonoBehaviour
         EventBus.OnSelectableSelected -= HandleSelected;
     }
 
+
+    // Called every time selection changes
     private void HandleSelected(ISelectable selectable)
     {
         // Clears previously selected ISelectable
 
         ClearProductionButtons();
 
+
+        // If the selected thing has no displayable info, just hide the panel
         if (selectable is not IDisplayable displayable)
         {
             if (panelRoot != null)
@@ -52,14 +56,15 @@ public class InformationPanelUI : MonoBehaviour
         displayImage.sprite = displayable.DisplayIcon;
         displayNameText.text = displayable.DisplayName;
 
+        // If this entity can also produce units, build a button per producible unit
         if (selectable is IUnitProducable producer)
         {
-            foreach (UnitData soldierData in producer.ProduceableUnits)
+            foreach (UnitData unitData in producer.ProduceableUnits)
             {
                 ProductionButtonUI button = buttonPool.Get();
                 activeButtons.Add(button);
 
-                UnitData capturedData = soldierData;
+                UnitData capturedData = unitData;
                 button.Setup(capturedData, () => producer.ProduceUnit(capturedData));
             }
         }

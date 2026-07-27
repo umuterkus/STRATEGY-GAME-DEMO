@@ -1,6 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+/// <summary>
+/// UnitManager is a singleton that manages the full lifecycle of units when a building produces a unit (for now) 
+/// it creates a pool the UnitFactory
+/// </summary>
 public class UnitManager : MonoBehaviour
 {
     public static UnitManager Instance { get; private set; }
@@ -21,10 +26,12 @@ public class UnitManager : MonoBehaviour
         }
         Instance = this;
 
-        Transform parent = unitParent != null ? unitParent : transform;
+        Transform parent = unitParent;
+        // create the factory with the chosen parent and pool size
         unitFactory = new UnitFactory(parent, initialPoolSize);
     }
 
+    // Subscribe to the unit produced event
     private void OnEnable()
     {
         EventBus.OnUnitProduced += HandleUnitProduced;
@@ -35,6 +42,7 @@ public class UnitManager : MonoBehaviour
         EventBus.OnUnitProduced -= HandleUnitProduced;
     }
 
+    //Takes a newly created unit from the factory, adds it to the active units list, places it on the grid, and subscribes to its death event.
     private void HandleUnitProduced(UnitData data, Vector2 spawnPos)
     {
         UnitBase unit = unitFactory.CreateUnit(data, spawnPos);
@@ -47,6 +55,7 @@ public class UnitManager : MonoBehaviour
         GridManager.Instance.PlaceEntity(cell, Vector2Int.one, unit);
     }
 
+    //Removes the dead unit from the active list, unsubscribes from its event, and returns it to the pool
     private void HandleUnitDied(UnitBase unit)
     {
         unit.OnDied -= HandleUnitDied;

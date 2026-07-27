@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: House
   m_EditorClassIdentifier: Assembly-CSharp::BuildingData
   buildingName: House
-  buildingIcon: {fileID: -2083714692, guid: 79d42fb7b382efc49b5a9e63204ac560, type: 3}
+  buildingIcon: {fileID: -1612033508, guid: 37a044cbf338ece478f4ddf52aa15d60, type: 3}
   width: 2
   height: 2
   buildingMaxHealth: 25

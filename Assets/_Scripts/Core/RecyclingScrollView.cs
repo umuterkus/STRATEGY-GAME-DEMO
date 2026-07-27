@@ -15,16 +15,25 @@ public class RecyclingScrollView : MonoBehaviour
     [SerializeField] private float verticalSpacing = 20f;
     [SerializeField] private float horizontalSpacing = 20f;
 
+    // Extra rows kept ready outside the visible viewport, so scrolling doesnt show empty gaps
+
     private const int BufferRowCount = 1;
+
+    // Fired when a card is set up with data
     public event Action<RectTransform, int> OnCardSetup;
 
     private readonly List<RectTransform> activeCards = new List<RectTransform>();
     private ComponentPool<RectTransform> cardPool;
+
+    // Logic class that figures out which data index belongs in which column
     private GridRecycler recycler;
 
     private float rowHeightTotal;
     private float columnWidthTotal;
     private int visibleRowCount;
+
+
+    // Called from ProductionMenuUI with the total number of items to display
 
     public void Initialize(int itemCount)
     {
@@ -84,6 +93,9 @@ public class RecyclingScrollView : MonoBehaviour
         card.anchoredPosition = new Vector2(col * columnWidthTotal, -row * rowHeightTotal);
     }
 
+
+    // Updates a cards data, or hides it if  no data
+
     private void SetupCard(RectTransform card, int dataIndex)
     {
         bool hasData = dataIndex >= 0;
@@ -92,6 +104,7 @@ public class RecyclingScrollView : MonoBehaviour
             OnCardSetup?.Invoke(card, dataIndex);
     }
 
+    // Called automatically by Unity whenever the user scrolls
     private void OnScroll(Vector2 normalizedPos)
     {
         if (activeCards.Count == 0) return;
@@ -99,7 +112,11 @@ public class RecyclingScrollView : MonoBehaviour
         float contentPosY = contentPanel.anchoredPosition.y;
         RectTransform topLeftCard = activeCards[0];
 
+
+        // Has the card scrolled far enough that the top
         bool scrolledPastTopRow = contentPosY > -topLeftCard.anchoredPosition.y + rowHeightTotal;
+
+        // Has the card scrolled back
         bool scrolledBeforeTopRow = contentPosY < -topLeftCard.anchoredPosition.y;
 
         if (scrolledPastTopRow)
@@ -107,6 +124,8 @@ public class RecyclingScrollView : MonoBehaviour
         else if (scrolledBeforeTopRow)
             MoveBottomRowToTop();
     }
+
+    // Scrolling down here, instead of destroying the top row, teleport to the bottom with new data
 
     private void MoveTopRowToBottom()
     {
@@ -130,6 +149,8 @@ public class RecyclingScrollView : MonoBehaviour
             activeCards.Add(card);
         }
     }
+
+    // Scrolling up, instead of destroying the bottom row, move it to the top with new data
 
     private void MoveBottomRowToTop()
     {

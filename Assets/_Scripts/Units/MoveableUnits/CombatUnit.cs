@@ -94,7 +94,6 @@ public class CombatUnit : MoveableUnit, IAttacker
             // Check if the enemy near the range
             if (GridManager.Instance.AreWithinRange(ownGrid, targetOrigin, targetSize, CombatData.AttackRange))
             {
-                //Debug.Log($"{name}, hits the target {CombatData.AttackDamage} damage! Remaining health: {attackTargetDamageable.CurrentHealth - CombatData.AttackDamage}");
 
                 attackTargetDamageable.TakeDamage(CombatData.AttackDamage);
                 yield return new WaitForSeconds(CombatData.AttackCooldown);
